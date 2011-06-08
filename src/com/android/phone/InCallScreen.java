@@ -70,6 +70,7 @@ import com.android.internal.telephony.MmiCode;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyCapabilities;
+import com.android.internal.telephony.gsm.SuppServiceNotification;
 import com.android.internal.telephony.util.BlacklistUtils;
 import com.android.phone.Constants.CallStatusCode;
 import com.android.phone.InCallUiState.InCallScreenMode;
@@ -163,6 +164,7 @@ public class InCallScreen extends Activity
     private static final int REQUEST_UPDATE_SCREEN = 122;
     private static final int PHONE_INCOMING_RING = 123;
     private static final int PHONE_NEW_RINGING_CONNECTION = 124;
+    private static final int SUPP_SERVICE_NOTIFY = 125;
 
     // When InCallScreenMode is UNDEFINED set the default action
     // to ACTION_UNDEFINED so if we are resumed the activity will
@@ -282,6 +284,10 @@ public class InCallScreen extends Activity
             switch (msg.what) {
                 case SUPP_SERVICE_FAILED:
                     onSuppServiceFailed((AsyncResult) msg.obj);
+                    break;
+
+                case SUPP_SERVICE_NOTIFY:
+                    onSuppServiceNotification((AsyncResult) msg.obj);
                     break;
 
                 case PHONE_STATE_CHANGED:
@@ -1066,6 +1072,7 @@ public class InCallScreen extends Activity
             mCM.registerForSuppServiceFailed(mHandler, SUPP_SERVICE_FAILED, null);
             mCM.registerForIncomingRing(mHandler, PHONE_INCOMING_RING, null);
             mCM.registerForNewRingingConnection(mHandler, PHONE_NEW_RINGING_CONNECTION, null);
+            mCM.registerForSuppServiceNotification(mHandler, SUPP_SERVICE_NOTIFY, null);
             mRegisteredForPhoneStates = true;
         }
     }
@@ -1080,6 +1087,7 @@ public class InCallScreen extends Activity
         mCM.unregisterForSuppServiceFailed(mHandler);
         mCM.unregisterForIncomingRing(mHandler);
         mCM.unregisterForNewRingingConnection(mHandler);
+        mCM.unregisterForSuppServiceNotification(mHandler);
         mRegisteredForPhoneStates = false;
     }
 
@@ -1623,6 +1631,18 @@ public class InCallScreen extends Activity
         mSuppServiceFailureDialog.show();
     }
 
+    private void onSuppServiceNotification(AsyncResult r) {
+        SuppServiceNotification notification = (SuppServiceNotification) r.result;
+
+        if (notification.notificationType == SuppServiceNotification.NOTIFICATION_TYPE_MT) {
+            if (notification.code == SuppServiceNotification.MT_CODE_ADDITIONAL_CALL_FORWARDED) {
+                if (!PhoneUtils.getCurrentCall(mPhone).isIdle()) {
+                    mApp.inCallUiState.needToShowAdditionalCallForwardedDialog = true;
+                }
+            }
+        }
+    }
+
     /**
      * Something has changed in the phone's state.  Update the UI.
      */
@@ -1709,7 +1729,12 @@ public class InCallScreen extends Activity
         // Under certain call disconnected states, we want to alert the user
         // with a dialog instead of going through the normal disconnect
         // routine.
-        if (cause == Connection.DisconnectCause.CALL_BARRED) {
+        if (cause == Connection.DisconnectCause.INCOMING_MISSED) {
+            if (mApp.inCallUiState.needToShowAdditionalCallForwardedDialog) {
+                showGenericErrorDialog(R.string.callUnanswered_forwarded, false);
+                mApp.inCallUiState.needToShowAdditionalCallForwardedDialog = false;
+            }
+        } else if (cause == Connection.DisconnectCause.CALL_BARRED) {
             showGenericErrorDialog(R.string.callFailed_cb_enabled, false);
             return;
         } else if (cause == Connection.DisconnectCause.FDN_BLOCKED) {
