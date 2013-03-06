@@ -175,7 +175,7 @@ public class CallNotifier extends Handler
 
     private boolean mNextGsmCallIsForwarded;
     private Set<Connection> mForwardedCalls;
-    private Set<Call> mWaitingCalls;
+    private Set<Connection> mWaitingCalls;
 
     // ToneGenerator instance for playing SignalInfo tones
     private ToneGenerator mSignalInfoToneGenerator;
@@ -227,7 +227,7 @@ public class CallNotifier extends Handler
         mCallLogger = callLogger;
 
         mForwardedCalls = new HashSet<Connection>();
-        mWaitingCalls = new HashSet<Call>();
+        mWaitingCalls = new HashSet<Connection>();
 
         mAudioManager = (AudioManager) mApplication.getSystemService(Context.AUDIO_SERVICE);
 
@@ -260,8 +260,13 @@ public class CallNotifier extends Handler
         return false;
     }
 
-    public boolean isCallHeldRemotely(Call call) {
-        return mWaitingCalls.contains(call);
+    public boolean isCallWaiting(Call call) {
+        for (Connection c : mWaitingCalls) {
+            if (call.hasConnection(c)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void createSignalInfoToneGenerator() {
@@ -850,6 +855,27 @@ public class CallNotifier extends Handler
             }
 
             if (VDBG) log("onPhoneStateChanged: OFF HOOK");
+
+            Call call = PhoneUtils.getCurrentCall(fgPhone);
+            Connection c = PhoneUtils.getConnection(fgPhone, call);
+            if (VDBG) PhoneUtils.dumpCallState(fgPhone);
+            Call.State cstate = call.getState();
+
+            if (cstate == Call.State.ACTIVE && !c.isIncoming()) {
+                long callDurationMsec = c.getDurationMillis();
+                if (VDBG) Log.v(LOG_TAG, "duration is " + callDurationMsec);
+                boolean vibOut = PhoneUtils.PhoneSettings.vibOutgoing(mApplication);
+                if (vibOut && callDurationMsec < 200) {
+                    vibrate(100, 0, 0);
+                }
+                boolean vib45 = PhoneUtils.PhoneSettings.vibOn45Secs(mApplication);
+                if (vib45) {
+                    callDurationMsec = callDurationMsec % 60000;
+                    start45SecondVibration(callDurationMsec);
+                }
+                mWaitingCalls.remove(c);
+            }
+
             // make sure audio is in in-call mode now
             PhoneUtils.setAudioMode(mCM);
 
@@ -1088,7 +1114,7 @@ public class CallNotifier extends Handler
 
         if (c != null) {
             mForwardedCalls.remove(c);
-            mWaitingCalls.remove(c.getCall());
+            mWaitingCalls.remove(c);
         }
 
         int autoretrySetting = 0;
@@ -2030,13 +2056,13 @@ public class CallNotifier extends Handler
 
     private void onSuppServiceNotification(AsyncResult r) {
         SuppServiceNotification notification = (SuppServiceNotification) r.result;
+        Phone gsmPhone = PhoneUtils.getGsmPhone(mCM);
 
         if (DBG) log("SS Notification: " + notification);
 
         if (notification.notificationType == SuppServiceNotification.NOTIFICATION_TYPE_MT) {
             if (notification.code == SuppServiceNotification.MT_CODE_FORWARDED_CALL
                     || notification.code == SuppServiceNotification.MT_CODE_DEFLECTED_CALL) {
-                Phone gsmPhone = PhoneUtils.getGsmPhone(mCM);
                 Call ringing = gsmPhone.getRingingCall();
                 if (ringing.getState().isRinging()) {
                     mForwardedCalls.add(PhoneUtils.getConnection(gsmPhone, ringing));
@@ -2046,13 +2072,20 @@ public class CallNotifier extends Handler
             }
 
             if (notification.code == SuppServiceNotification.MT_CODE_CALL_ON_HOLD) {
-                Call call = PhoneUtils.getCurrentCall(PhoneUtils.getGsmPhone(mCM));
+                Call call = PhoneUtils.getCurrentCall(gsmPhone);
                 if (call.getState() == Call.State.ACTIVE) {
-                    mWaitingCalls.add(call);
+                    mWaitingCalls.add(PhoneUtils.getConnection(gsmPhone, call));
                 }
             } else if (notification.code == SuppServiceNotification.MT_CODE_CALL_RETRIEVED) {
-                Call call = PhoneUtils.getCurrentCall(PhoneUtils.getGsmPhone(mCM));
-                mWaitingCalls.remove(call);
+                Call call = PhoneUtils.getCurrentCall(gsmPhone);
+                mWaitingCalls.remove(PhoneUtils.getConnection(gsmPhone, call));
+            }
+        } else if (notification.notificationType == SuppServiceNotification.NOTIFICATION_TYPE_MO) {
+            if (notification.code == SuppServiceNotification.MO_CODE_CALL_IS_WAITING) {
+                Call call = PhoneUtils.getCurrentCall(gsmPhone);
+                if (call.getState().isDialing()) {
+                    mWaitingCalls.add(PhoneUtils.getConnection(gsmPhone, call));
+                }
             }
         }
 
@@ -2084,10 +2117,6 @@ public class CallNotifier extends Handler
                 case SuppServiceNotification.MO_CODE_CALL_FORWARDED:
                     //This message is displayed on A when the outgoing call actually gets forwarded to C
                     return R.string.call_notif_MOcall_forwarding;
-                case SuppServiceNotification.MO_CODE_CALL_IS_WAITING:
-                    //This message is displayed on A when the B is busy on another call
-                    //and Call waiting is enabled on B
-                    return R.string.call_notif_calliswaiting;
                 case SuppServiceNotification.MO_CODE_CUG_CALL:
                     //This message is displayed on A, when A makes call to B, both A & B
                     //belong to a CUG group
