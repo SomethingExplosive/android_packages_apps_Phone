@@ -20,5 +20,10 @@
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">Toetsenblokinstellingen</string>
     <string name="dialer_ui_settings_summary">Instellingen voor het numerieke toetsenblok</string>
+	
+	<!-- Advanced Settings -->
+	<string name="advanced_setting">Geavanceerd</string>
+	<string name="calllog_after_call">Logboek tonen</string>
+    <string name="calllog_after_call_summary">Logboek tonen na het beëindigen van een gesprek</string>
 
 </resources>

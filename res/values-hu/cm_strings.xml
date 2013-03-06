@@ -19,5 +19,10 @@
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">Tárcsázó beállítások</string>
     <string name="dialer_ui_settings_summary">Tárcsázó beállításai</string>
+	
+	<!-- Advanced Settings -->
+	<string name="advanced_setting">Speciális beállítások</string>
+	<string name="calllog_after_call">Hívásnapló</string>
+    <string name="calllog_after_call_summary">Hívásnapló megjelenítése a hívás után</string>
 
 </resources>

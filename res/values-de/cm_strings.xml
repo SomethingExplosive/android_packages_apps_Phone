@@ -20,5 +20,10 @@
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">Wähltasten</string>
     <string name="dialer_ui_settings_summary">Einstellungen für die Wähltasten</string>
+	
+	<!-- Advanced Settings -->
+	<string name="advanced_setting">Erweiterte Einstellungen</string>
+	<string name="calllog_after_call">Anrufliste anzeigen</string>
+    <string name="calllog_after_call_summary">Anrufliste anzeigen, nachdem ein Anruf beendet wurde</string>
 
 </resources>

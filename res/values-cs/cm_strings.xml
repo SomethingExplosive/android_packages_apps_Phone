@@ -20,5 +20,10 @@
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">Nastavení číselníku</string>
     <string name="dialer_ui_settings_summary">Nastavení číselníku</string>
+	
+	<!-- Advanced Settings -->
+	<string name="advanced_setting">Rozšířené nastavení</string>
+	<string name="calllog_after_call">Zobrazit záznam</string>
+    <string name="calllog_after_call_summary">Zobrazit záznam hovorů po ukončení hovoru</string>
 
 </resources>

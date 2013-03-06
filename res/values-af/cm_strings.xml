@@ -19,5 +19,10 @@
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">Sleutelbord</string>
     <string name="dialer_ui_settings_summary">Instellings vir die sleutelbord</string>
+	
+	<!-- Advanced Settings -->
+	<string name="advanced_setting">Gevorderde instellings</string>
+    <string name="vibrate_outgoing">Vibreer op antwoord</string>
+    <string name="vibrate_call_waiting">Vibreer op oproep wag</string>
 
 </resources>

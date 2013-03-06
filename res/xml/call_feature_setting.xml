@@ -36,6 +36,18 @@
             android:defaultValue="false" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="pref_advanced_settings"
+        android:title="@string/advanced_setting">
+
+        <CheckBoxPreference
+            android:key="button_calllog_after_call"
+            android:title="@string/calllog_after_call"
+            android:summary="@string/calllog_after_call_summary"
+            android:persistent="true"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
   <PreferenceCategory
       android:key="button_misc_category_key"
       android:title="@string/other_settings"

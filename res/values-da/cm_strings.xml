@@ -20,5 +20,10 @@
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">Opkaldsprogram-indstillinger</string>
     <string name="dialer_ui_settings_summary">Indstillinger for opkaldsprogram</string>
+	
+	<!-- Advanced Settings -->
+	<string name="advanced_setting">Avancerede indstillinger</string>
+	<string name="calllog_after_call">Vis log</string>
+    <string name="calllog_after_call_summary">Vis opkaldsloggen, når opkaldet afsluttes</string>
 
 </resources>

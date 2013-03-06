@@ -19,5 +19,8 @@
     <!-- Dialer UI Settings -->
     <string name="dialer_ui_settings_title">"Setări tast. numerică"</string>
     <string name="dialer_ui_settings_summary">"Setări pentru tastatura numerică"</string>
+	
+	<!-- Advanced Settings -->
+	<string name="advanced_setting">"Setări Avansate"</string>
 
 </resources>
