@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
+ * Blacklist - Copyright (C) 2013 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +53,6 @@ import android.preference.PreferenceScreen;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.provider.Settings.SettingNotFoundException;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
@@ -245,6 +245,9 @@ public class CallFeaturesSetting extends PreferenceActivity
     private static final String VOICEMAIL_VIBRATION_ALWAYS = "always";
     private static final String VOICEMAIL_VIBRATION_NEVER = "never";
 
+    // Blacklist support
+    private static final String BUTTON_BLACKLIST = "button_blacklist";
+
     private EditPhoneNumberPreference mSubMenuVoicemailSettings;
 
     private Runnable mRingtoneLookupRunnable;
@@ -277,6 +280,7 @@ public class CallFeaturesSetting extends PreferenceActivity
     private Preference mVoicemailNotificationRingtone;
     private CheckBoxPreference mVoicemailNotificationVibrate;
     private SipSharedPreferences mSipSharedPreferences;
+    private PreferenceScreen mButtonBlacklist;
 
     private class VoiceMailProvider {
         public VoiceMailProvider(String name, Intent intent) {
@@ -815,7 +819,9 @@ public class CallFeaturesSetting extends PreferenceActivity
                 if (DBG) log("onActivityResult: bad contact data, no results found.");
                 return;
             }
+
             mSubMenuVoicemailSettings.onPickActivityResult(cursor.getString(0));
+            cursor.close();
             return;
         }
 
@@ -1654,6 +1660,9 @@ public class CallFeaturesSetting extends PreferenceActivity
             }
         };
 
+        // Blacklist screen - Needed for setting summary
+        mButtonBlacklist = (PreferenceScreen) prefSet.findPreference(BUTTON_BLACKLIST);
+
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             // android.R.id.home will be triggered in onOptionsItemSelected()
@@ -1806,6 +1815,17 @@ public class CallFeaturesSetting extends PreferenceActivity
         }
 
         lookupRingtoneName();
+        updateBlacklistSummary();
+    }
+
+    private void updateBlacklistSummary() {
+        if (mButtonBlacklist != null) {
+            if (PhoneUtils.PhoneSettings.isBlacklistEnabled(this)) {
+                mButtonBlacklist.setSummary(R.string.blacklist_summary);
+            } else {
+                mButtonBlacklist.setSummary(R.string.blacklist_summary_disabled);
+            }
+        }
     }
 
     // Migrate settings from BUTTON_VOICEMAIL_NOTIFICATION_VIBRATE_WHEN_KEY to
