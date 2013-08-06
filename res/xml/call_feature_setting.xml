@@ -109,7 +109,7 @@
   <CheckBoxPreference
       android:key="button_dialpad_autocomplete"
       android:title="@string/dial_pad_autocomplete"
-      android:persistent="true"
+      android:persistent="false"
       android:defaultValue="true" />
 
   <PreferenceScreen
