@@ -16,13 +16,9 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">Ustawienia dialera</string>
-    <string name="dialer_ui_settings_summary">Ekran z ustawieniami dialera</string>
-	
-	<!-- Advanced Settings -->
-	<string name="advanced_setting">Ustawienia zaawansowane</string>
-	<string name="calllog_after_call">Pokaż raport</string>
+    <!-- Advanced Settings -->
+    <string name="advanced_setting">Ustawienia zaawansowane</string>
+    <string name="calllog_after_call">Pokaż raport</string>
     <string name="calllog_after_call_summary">Pokaż raport po zakończeniu połączenia</string>
 
 </resources>

@@ -16,13 +16,9 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">拨号键盘设置</string>
-    <string name="dialer_ui_settings_summary">更改拨号键盘的设置</string>
-	
-	<!-- Advanced Settings -->
-	<string name="advanced_setting">高级设置</string>
-	<string name="calllog_after_call">显示通话记录</string>
+    <!-- Advanced Settings -->
+    <string name="advanced_setting">高级设置</string>
+    <string name="calllog_after_call">显示通话记录</string>
     <string name="calllog_after_call_summary">通话结束时显示通话记录</string>
 
 </resources>

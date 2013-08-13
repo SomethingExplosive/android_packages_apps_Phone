@@ -16,13 +16,9 @@
  -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">Paramètres du clavier</string>
-    <string name="dialer_ui_settings_summary">Définir les paramètres du clavier</string>
-	
-	<!-- Advanced Settings -->
-	<string name="advanced_setting">Paramètres avancés</string>
-	<string name="calllog_after_call">Afficher l\'historique</string>
+    <!-- Advanced Settings -->
+    <string name="advanced_setting">Paramètres avancés</string>
+    <string name="calllog_after_call">Afficher l\'historique</string>
     <string name="calllog_after_call_summary">Afficher l\'historique à la fin d\'un appel</string>
 
 </resources>
