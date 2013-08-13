@@ -16,8 +16,5 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">Налаштування кнопок</string>
-    <string name="dialer_ui_settings_summary">Налаштування номеронабирача</string>
 
 </resources>

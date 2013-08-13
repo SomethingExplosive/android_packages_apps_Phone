@@ -16,13 +16,9 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">Impostazioni tastierino</string>
-    <string name="dialer_ui_settings_summary">Impostazioni per il tastierino numerico</string>
-	
-	<!-- Advanced Settings -->
-	<string name="advanced_setting">Impostazioni avanzate</string>
-	<string name="calllog_after_call">Registro chiamate</string>
+    <!-- Advanced Settings -->
+    <string name="advanced_setting">Impostazioni avanzate</string>
+    <string name="calllog_after_call">Registro chiamate</string>
     <string name="calllog_after_call_summary">Mostra il registro al termine di una chiamata</string>
 
 </resources>

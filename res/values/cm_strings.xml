@@ -17,13 +17,9 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">Dialpad settings</string>
-    <string name="dialer_ui_settings_summary">Settings for the dialpad</string>
-
-	<!-- Advanced Settings -->
+    <!-- Advanced Settings -->
     <string name="advanced_setting">Advanced Settings</string>
-	<string name="calllog_after_call">Show log</string>
+    <string name="calllog_after_call">Show log</string>
     <string name="calllog_after_call_summary">Show the call log after ending a call</string>
 	
 </resources>

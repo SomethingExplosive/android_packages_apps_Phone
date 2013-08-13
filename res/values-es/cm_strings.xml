@@ -16,13 +16,9 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">Ajustes de marcación</string>
-    <string name="dialer_ui_settings_summary">Ajustes del teclado de marcación</string>
-	
-	<!-- Advanced Settings -->
-	<string name="advanced_setting">Configuración avanzada</string>
-	<string name="calllog_after_call">Mostrar registro</string>
+    <!-- Advanced Settings -->
+    <string name="advanced_setting">Configuración avanzada</string>
+    <string name="calllog_after_call">Mostrar registro</string>
     <string name="calllog_after_call_summary">Mostrar el registro de la llamada al colgar</string>
 
 </resources>

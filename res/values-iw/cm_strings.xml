@@ -16,12 +16,8 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Dialer UI Settings -->
-    <string name="dialer_ui_settings_title">הגדרות חייגן</string>
-    <string name="dialer_ui_settings_summary">הגדרות של לוח החיוג</string>
-	
-	<!-- Advanced Settings -->
-	<string name="advanced_setting">הגדרות מתקדמות</string>
+    <!-- Advanced Settings -->
+    <string name="advanced_setting">הגדרות מתקדמות</string>
 	
 
 </resources>
