@@ -269,18 +269,19 @@ public class CallNotifier extends Handler
             Log.d(LOG_TAG, "mSignalInfoToneGenerator created already, hence skipping");
         }
 
-    public boolean isCallForwarded(Call call) {
-        for (Connection c : mForwardedCalls) {
-            if (call.hasConnection(c)) {
-                return true;
+        public boolean isCallForwarded(Call call) {
+            for (Connection c : mForwardedCalls) {
+                if (call.hasConnection(c)) {
+                    return true;
+                }
             }
+
+            return false;
         }
 
-        return false;
-    }
-
-    public boolean isCallHeldRemotely(Call call) {
-        return mWaitingCalls.contains(call);
+        public boolean isCallHeldRemotely(Call call) {
+            return mWaitingCalls.contains(call);
+        }
     }
 
     @Override
