@@ -250,6 +250,20 @@ public class CallNotifier extends Handler
                 | PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR);
     }
 
+    public boolean isCallForwarded(Call call) {
+        for (Connection c : mForwardedCalls) {
+            if (call.hasConnection(c)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isCallHeldRemotely(Call call) {
+        return mWaitingCalls.contains(call);
+    }
+
     private void createSignalInfoToneGenerator() {
         // Instantiate the ToneGenerator for SignalInfo and CallWaiting
         // TODO: We probably don't need the mSignalInfoToneGenerator instance
@@ -267,20 +281,6 @@ public class CallNotifier extends Handler
             }
         } else {
             Log.d(LOG_TAG, "mSignalInfoToneGenerator created already, hence skipping");
-        }
-
-        public boolean isCallForwarded(Call call) {
-            for (Connection c : mForwardedCalls) {
-                if (call.hasConnection(c)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public boolean isCallHeldRemotely(Call call) {
-            return mWaitingCalls.contains(call);
         }
     }
 
